@@ -15,15 +15,15 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
         WITH_V: true
-    - uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        draft: false
-        prerelease: false
-       
-
-
     
+    - name: Create Release
+      env:
+        GITHUB_TOKEN: "${{ secrets.REPO_TOKEN }}"
+      run: |
+        git clone https://github.com/belalhassan91/angular.git
+        cd ./angular
+        release_version=$( git tag | tail -n1 )
+        cd ..
+        git clone https://github.com/belalhassan91/udacity_Capstone.git
+        cd ./udacity_Capstone
+        gh release create ${{ release_version }}
